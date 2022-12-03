@@ -30,6 +30,7 @@ android {
     sourceSets.getByName("androidTest") {
         assets.setSrcDirs(assets.srcDirs + files("$projectDir/schemas"))
     }
+    ndkVersion = "21.4.7075529"
 }
 
 cargo {
@@ -44,9 +45,29 @@ cargo {
             "logging",
             "local-flow-stat",
             "local-dns"))
+//    exec = { spec, toolchain ->
+//        spec.environment("RUST_ANDROID_GRADLE_LINKER_WRAPPER_PY", "$projectDir/$module/../linker-wrapper.py")
+//        spec.environment("RUST_ANDROID_GRADLE_TARGET", "target/${toolchain.target}/$profile/lib$libname.so")
+//    }
     exec = { spec, toolchain ->
-        spec.environment("RUST_ANDROID_GRADLE_LINKER_WRAPPER_PY", "$projectDir/$module/../linker-wrapper.py")
-        spec.environment("RUST_ANDROID_GRADLE_TARGET", "target/${toolchain.target}/$profile/lib$libname.so")
+        run {
+            try {
+                Runtime.getRuntime().exec("python3 -V >/dev/null 2>&1")
+                spec.environment("RUST_ANDROID_GRADLE_PYTHON_COMMAND", "python3")
+                project.logger.lifecycle("Python 3 detected.")
+            } catch (e: java.io.IOException) {
+                project.logger.lifecycle("No python 3 detected.")
+                try {
+                    Runtime.getRuntime().exec("python -V >/dev/null 2>&1")
+                    spec.environment("RUST_ANDROID_GRADLE_PYTHON_COMMAND", "python")
+                    project.logger.lifecycle("Python detected.")
+                } catch (e: java.io.IOException) {
+                    throw GradleException("No any python version detected. You should install the python first to compile project.")
+                }
+            }
+            spec.environment("RUST_ANDROID_GRADLE_LINKER_WRAPPER_PY", "$projectDir/$module/../linker-wrapper.py")
+            spec.environment("RUST_ANDROID_GRADLE_TARGET", "target/${toolchain.target}/$profile/lib$libname.so")
+        }
     }
 }
 

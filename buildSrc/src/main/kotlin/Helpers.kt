@@ -87,6 +87,14 @@ fun Project.setupApp() {
             "zh-rCN",
             "zh-rTW",
         ))
+        signingConfigs {
+            register("release")  {
+                keyAlias =  "ityussr"
+                keyPassword  = "111111"
+                storeFile  = file("/Users/yujunlong/AndroidStudioProjects/ssrvpn/shadowsocks-android/mobile/ityussr.jks")
+                storePassword =  "111111"
+            }
+        }
         buildTypes {
             getByName("debug") {
                 isPseudoLocalesEnabled = true
@@ -94,6 +102,7 @@ fun Project.setupApp() {
             getByName("release") {
                 isShrinkResources = true
                 isMinifyEnabled = true
+                signingConfig = signingConfigs.getByName("release")
                 proguardFile(getDefaultProguardFile("proguard-android.txt"))
             }
         }
