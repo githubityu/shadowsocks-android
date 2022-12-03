@@ -91,7 +91,7 @@ fun Project.setupApp() {
             register("release")  {
                 keyAlias =  "ityussr"
                 keyPassword  = "111111"
-                storeFile  = file("/Users/yujunlong/AndroidStudioProjects/ssrvpn/shadowsocks-android/mobile/ityussr.jks")
+                storeFile  = file("/xxxx/shadowsocks-android/mobile/ityussr.jks")
                 storePassword =  "111111"
             }
         }
