@@ -13,7 +13,9 @@ Based on [shadowsocks/shadowsocks-android](https://github.com/shadowsocks/shadow
 
 * JDK 11+
 * Android SDK
-  - Android NDK
+  - Android NDK  21.4.7075529
+* python  3.11.0
+* rustup 1.25.1
 * Rust with Android targets installed  
 
 ```bash
