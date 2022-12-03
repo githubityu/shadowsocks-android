@@ -9,6 +9,9 @@
 
 Based on [shadowsocks/shadowsocks-android](https://github.com/shadowsocks/shadowsocks-android)
 
+### Release
+>  ./gradlew assemblerelease
+
 ### PREREQUISITES
 
 * JDK 11+
